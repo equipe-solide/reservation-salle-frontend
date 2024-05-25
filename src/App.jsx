@@ -15,10 +15,10 @@ function App() {
     <MantineProviderComponent>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route index element={<Login />} />
           <Route path="*" element={<NoPage />} />
-          <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="dashboard" element={<Dashboard />}>
             <Route index element={<Statistique
              />} />
             <Route path="reservation" element={<Reservation />} />

@@ -3,6 +3,7 @@ import { AppShell, Button, Group } from "@mantine/core";
 import { IoCalendarOutline } from "react-icons/io5";
 import { HiOutlineHomeModern } from "react-icons/hi2";
 import { HiOutlineUsers } from "react-icons/hi2";
+import { VscGraph } from "react-icons/vsc";
 import { Link, useLocation } from "react-router-dom";
 
 function MantineSidebar() {
@@ -10,9 +11,22 @@ function MantineSidebar() {
   const [activeLink, setActiveLink] = useState(location.pathname);
 
   const links = [
-    { link: "reservation", label: "Reservation", icon: <IoCalendarOutline size={20}/> },
+    {
+      link: "/dashboard",
+      label: "Tableau de bord",
+      icon: <VscGraph size={20} />,
+    },
+    {
+      link: "reservation",
+      label: "Reservation",
+      icon: <IoCalendarOutline size={20} />,
+    },
     { link: "salle", label: "Salle", icon: <HiOutlineHomeModern size={20} /> },
-    { link: "utilisateur", label: "Utilisateur", icon: <HiOutlineUsers size={20} /> },
+    {
+      link: "utilisateur",
+      label: "Utilisateur",
+      icon: <HiOutlineUsers size={20} />,
+    },
   ];
 
   const handleLinkClick = (link) => {
@@ -40,7 +54,11 @@ function MantineSidebar() {
           </Link>
         ))}
         <li className="mt-10">
-          <Button className="bg-red-500 rounded-full hover:bg-red-800 transiton duration-200 md:hidden">
+          <Button
+            variant="gradient"
+            gradient={{ from: "red", to: "cyan", deg: 90 }}
+            className="rounded-full md:hidden"
+          >
             Se deconnecter
           </Button>
         </li>

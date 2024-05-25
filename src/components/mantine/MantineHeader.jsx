@@ -2,8 +2,10 @@ import React from "react";
 import { AppShell, Burger, Button, Group, Stack } from "@mantine/core";
 import logo from "../../assets/images/logo.png";
 import avatar from "../../assets/images/avatar.png";
+import { useNavigate } from "react-router";
 
 function MantineHeader({ opened, toggle }) {
+    let navigate = useNavigate();
   return (
     <AppShell.Header>
       <Group
@@ -25,7 +27,12 @@ function MantineHeader({ opened, toggle }) {
             <p className="font-semibold">John Doe</p>
             <p className="text-gray-500">Admin</p>
           </Stack>
-          <Button className="bg-red-500 rounded-full hover:bg-red-800 transiton duration-200 ml-5 max-md:hidden">
+          <Button
+            variant="gradient"
+            gradient={{ from: "red", to: "cyan", deg: 90 }}
+            className="rounded-full ml-5 max-md:hidden"
+            onClick={() => navigate("/login")}
+          >
             Se deconnecter
           </Button>
         </Group>
