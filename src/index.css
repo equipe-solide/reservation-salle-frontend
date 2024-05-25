@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1{
+    @apply text-xl md:text-2xl xl:text-4xl font-bold tracking-widest;
+  }
+  h2{
+    @apply text-base md:text-xl font-semibold;
+  }
+}
+
+@layer components {
+  .active {
+    @apply text-white font-extrabold text-base tracking-widest;
+  }
+}
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .container-padding {
+    @apply py-[5%];
+  }
+
+  .container-margin {
+    @apply mt-[30%] sm:mt-[20%] md:mt-[16%]  lg:mt-[14%] xl:mt-[12%]  2xl:mt-[5%] 
+  }
+}
+
+@font-face {
+  font-family: "poppins";
+  src: url("./assets/fonts/Poppins-Regular.ttf");
+}
+@font-face {
+  font-family: "poppinsBold";
+  src: url("./assets/fonts/Poppins-SemiBold.ttf");
+}
+@font-face {
+  font-family: "poppinsExtraBold";
+  src: url("./assets/fonts/Poppins-ExtraBold.ttf");
+}
+
+/* working with scrollbar */
+
+/* scroll bar style  */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #5e7fa3;
+  opacity: 0.3;
+  /* border-radius: 0px; */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5e7fa3;
+  cursor: pointer;
+}
