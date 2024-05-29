@@ -1,39 +1,50 @@
-import React from "react";
-import { Button, Group, Modal, Table } from "@mantine/core";
+import React, { useEffect, useState } from "react";
+import { Button, Group } from "@mantine/core";
 import MantineDataTable from "../components/mantine/MantineDataTable";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import FormulaireUtilisateur from "../components/FormulaireUtilisateur";
-import { useDisclosure } from "@mantine/hooks";
+import axios from "axios";
+import { USER_API_URL } from "../services/url.user";
+import Notiflix, { Confirm, Notify } from "notiflix";
+import NotiflixConfirm from "../components/notiflix/NotiflixConfirm";
 
 function Utilisateur() {
-   const [opened, { open, close }] = useDisclosure(false);
+  const [userData, setUserData] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
-  const elements = [
-    {
-      position: 1,
-      name: "Hydrogen",
-      symbol: "H",
-    },
-    {
-      position: 2,
-      name: "Helium",
-      symbol: "He",
-    },
-    {
-      position: 3,
-      name: "Lithium",
-      symbol: "Li",
-    },
-  ];
+  useEffect(() => {
+    getUserData();
+  }, [refresh]);
 
-  const Actions = (item) => {
+  const getUserData = async () => {
+    await axios
+      .get(USER_API_URL)
+      .then((res) => {
+        setUserData(res.data);
+        console.log("data ==>", res.data);
+      })
+      .catch((err) => console.log(err, "error"));
+  };
+
+  const Actions = (rowData) => {
     const clickUpdate = () => {
-      console.log("update", item);
+      console.log("update", rowData);
     };
 
-    const clickDelete = () => {
-      console.log("delete", item);
+    const clickDelete = async () => {
+      console.log("delete==>", rowData);
+      await NotiflixConfirm().then(() => {
+        axios
+          .delete(`${USER_API_URL}/${rowData.item.id}`)
+          .then((res) => {
+            setRefresh(!refresh);
+            Notify.success("Suppression avec succès");
+          })
+          .catch((err) => {
+            console.log(err, "error");
+            Notify.failure("Erreur de l'opération");
+          });
+      });
     };
     return (
       <Group>
@@ -53,27 +64,16 @@ function Utilisateur() {
   return (
     <div>
       <div className="my-5">
-        <Button variant="outline" onClick={open}>
-          Ajouter un utilisateur
-        </Button>
+        <Button variant="outline">Ajouter un utilisateur</Button>
       </div>
 
       <MantineDataTable
-        data={elements}
-        tableHeaders={["Nom", "Email", "Rôle"]}
-        tableFields={["position", "name", "symbol"]}
+        data={userData}
+        tableHeaders={["Nom", "Prénoms", "Email", "Rôle"]}
+        tableFields={["nom", "prenoms", "email", "role"]}
         ActionComponent={Actions}
       />
-      <Modal
-        opened={opened}
-        onClose={close}
-        title="Nouveau Utilisateur"
-        size="xl"
-      >
-        {opened && <FormulaireUtilisateur />}
-      </Modal>
     </div>
   );
 }
-
 export default Utilisateur;

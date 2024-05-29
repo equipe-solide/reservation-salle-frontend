@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "@mantine/core";
+import MantineIsDispoBadge from "./MantineIsDispoBadge";
 
 function MantineDataTable({
   ActionComponent,
@@ -10,11 +11,19 @@ function MantineDataTable({
   const rows = data?.map((item, index) => (
     <Table.Tr key={index}>
       {tableFields.map((field, fieldIndex) => (
-        <Table.Td key={fieldIndex}>{item[field]}</Table.Td>
+        <Table.Td key={fieldIndex}>
+          {field === "dispo" ? (
+            <MantineIsDispoBadge dispo={item[field]} />
+          ) : (
+            item[field]
+          )}
+        </Table.Td>
       ))}
-      <Table.Td>
-        <ActionComponent item={item} />
-      </Table.Td>
+      {ActionComponent && (
+        <Table.Td>
+          <ActionComponent item={item} />
+        </Table.Td>
+      )}
     </Table.Tr>
   ));
 
@@ -30,9 +39,11 @@ function MantineDataTable({
         <Table.Thead>
           <Table.Tr>
             {tableHeaders.map((header, index) => (
-              <Table.Th key={index} className="font-bold text-lg">{header}</Table.Th>
+              <Table.Th key={index} className="font-bold text-lg">
+                {header}
+              </Table.Th>
             ))}
-            <Table.Th className="font-bold text-lg">Action</Table.Th>
+            {ActionComponent && <Table.Th className="font-bold text-lg">Action</Table.Th>}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

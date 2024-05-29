@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Group,
+  PasswordInput,
   Select,
   SimpleGrid,
   Stack,
@@ -11,18 +12,29 @@ import {
 } from "@mantine/core";
 import * as Yup from "yup";
 import { VscRefresh } from "react-icons/vsc";
+import logo from "../assets/images/logo.png";
+import { USER_API_URL } from "../services/url.user";
+import { checkInputIfEmpty } from "../utils/Tools";
+import axios from "axios";
+import { Notify } from "notiflix";
 
 const userRoles = [
   { name: "Utilisateur", value: "Utilisateur" },
   { label: "Administrateur", value: "Administrateur" },
 ];
-const initialValues = { nom: "", prenom: "", email: "", role: "" };
+const initialValues = {
+  nom: "",
+  prenom: "",
+  email: "",
+  role: null,
+  password: "",
+};
 
-function FormulaireUtilisateur() {
+function Signup() {
   useEffect(() => {
-    console.log("FormulaireUtilisateur mounded");
+    console.log("Signup mounded");
     return () => {
-      console.log("FormulaireUtilisateur unmounted");
+      console.log("Signup unmounted");
     };
   }, []);
 
@@ -33,11 +45,10 @@ function FormulaireUtilisateur() {
       .email("Adresse email invalide")
       .required("Veuillez renseigner ce champ"),
     role: Yup.string().required("Veuillez renseigner ce champ "),
+    password: Yup.string().required("Veuillez renseigner ce champ"),
   });
 
   const {
-    key,
-    errors,
     values,
     reset,
     setValues,
@@ -56,13 +67,43 @@ function FormulaireUtilisateur() {
     console.log("values changed", values);
   }, [values]);
 
-  const handleSubmit = (values) => {
-    console.log(values);
+
+
+  const handleSignup = async () => {
+    let form = {
+      nom: values.nom,
+      prenoms: checkInputIfEmpty(values.prenom),
+      email: values.email,
+      password: values.password,
+      role: values.role,
+    };
+
+  console.log("form", form);
+
+    await axios
+      .post(USER_API_URL, form)
+      .then((res) => {
+        reset();
+        console.log("res", res);
+        if(!res.data.error){
+          Notify.success("Votre compte a bien été crée");
+          navigate("/dashboard");
+        }else{
+          Notify.failure(res.data?.error);
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+        Notify.failure("Erreur de l'opération");
+      });
   };
 
   return (
-    <div className="my-10">
-      <form onSubmit={onSubmit(handleSubmit)}>
+    <div className="">
+      <form onSubmit={onSubmit(handleSignup)}>
+        <Group justify="center" className="mb-10">
+          <img src={logo} className="w-[100px]" />
+        </Group>
         <Stack spacing="md">
           <SimpleGrid cols={2}>
             <TextInput
@@ -85,16 +126,32 @@ function FormulaireUtilisateur() {
             {...getInputProps("email")}
           />
           <Select
+            mt={10}
+            required
+            label="Rôle"
             data={userRoles}
             placeholder="Choisir rôle"
+            clearable
             {...getInputProps("role")}
-            mt={10}
           />
-          <Group justify="flex-end" className="mt-24">
+          <PasswordInput
+            label="Mot de passe"
+            placeholder="votre mot de passe"
+            required
+            mt="md"
+            {...getInputProps("password")}
+          />
+          <Group justify="end" className="mt-24">
             <Button type="button" variant="outline" onClick={reset}>
               <VscRefresh size={25} />
             </Button>
-            <Button type="submit">Ajouter</Button>
+            <Button
+              variant="gradient"
+              gradient={{ from: "red", to: "cyan", deg: 90 }}
+              type="submit"
+            >
+              Créer mon compte
+            </Button>
           </Group>
         </Stack>
       </form>
@@ -102,4 +159,4 @@ function FormulaireUtilisateur() {
   );
 }
 
-export default FormulaireUtilisateur;
+export default Signup;

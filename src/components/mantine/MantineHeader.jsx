@@ -3,9 +3,29 @@ import { AppShell, Burger, Button, Group, Stack } from "@mantine/core";
 import logo from "../../assets/images/logo.png";
 import avatar from "../../assets/images/avatar.png";
 import { useNavigate } from "react-router";
+import AuthApi from "../../utils/AuthApi";
+import { Confirm } from "notiflix";
 
 function MantineHeader({ opened, toggle }) {
-    let navigate = useNavigate();
+  let navigate = useNavigate();
+  let role = AuthApi.getRole();
+  let emailUser = AuthApi.getEmail();
+
+  const handleLogout = () => {
+    Confirm.show(
+      "Déconnexion",
+      "Voulez-vous vraiment vous déconnecter ?",
+      "Oui",
+      "Non",
+      () => {
+        AuthApi.logout();
+        navigate("/login");
+      },
+      () => {},
+      {}
+    );
+  };
+
   return (
     <AppShell.Header>
       <Group
@@ -24,14 +44,14 @@ function MantineHeader({ opened, toggle }) {
             className="w-[40px] h-[40px] rounded-full object-cover object-center"
           />
           <Stack gap={0}>
-            <p className="font-semibold">John Doe</p>
-            <p className="text-gray-500">Admin</p>
+            <p className="font-semibold">{emailUser}</p>
+            <p className="text-gray-500">{role}</p>
           </Stack>
           <Button
             variant="gradient"
             gradient={{ from: "red", to: "cyan", deg: 90 }}
             className="rounded-full ml-5 max-md:hidden"
-            onClick={() => navigate("/login")}
+            onClick={handleLogout}
           >
             Se deconnecter
           </Button>

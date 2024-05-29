@@ -21,7 +21,7 @@ function MantineSidebar() {
       label: "Reservation",
       icon: <IoCalendarOutline size={20} />,
     },
-    { link: "salle", label: "Salle", icon: <HiOutlineHomeModern size={20} /> },
+    { link: "salle_equipement", label: "Salle et Equipement", icon: <HiOutlineHomeModern size={20} /> },
     {
       link: "utilisateur",
       label: "Utilisateur",
