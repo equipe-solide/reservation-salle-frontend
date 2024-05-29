@@ -25,6 +25,10 @@ const getRole = () => {
   const token = window.localStorage.getItem("authToken");
   return token ? JSON.parse(token).user.role : null;
 };
+const getUserId = () => {
+  const token = window.localStorage.getItem("authToken");
+  return token ? JSON.parse(token).user.user_id : null;
+};
 
 const isUtilisateur = () => getRole() === "Utilisateur";
 const isAdmin = () => getRole() === "Administrateur";
@@ -34,6 +38,7 @@ export default {
   logout,
   setup,
   getRole,
+  getUserId,
   isAdmin,
   isUtilisateur
 };

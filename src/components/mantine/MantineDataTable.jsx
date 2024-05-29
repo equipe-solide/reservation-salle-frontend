@@ -6,17 +6,16 @@ function MantineDataTable({
   ActionComponent,
   tableHeaders,
   tableFields,
+  renderers = {}, // Ajout des renderers pour personnaliser les champs
   data,
 }) {
   const rows = data?.map((item, index) => (
     <Table.Tr key={index}>
       {tableFields.map((field, fieldIndex) => (
         <Table.Td key={fieldIndex}>
-          {field === "dispo" ? (
-            <MantineIsDispoBadge dispo={item[field]} />
-          ) : (
-            item[field]
-          )}
+          {renderers[field] // Si un renderer est fourni pour le champ, l'utiliser
+            ? renderers[field](item)
+            : item[field]}
         </Table.Td>
       ))}
       {ActionComponent && (
@@ -43,7 +42,9 @@ function MantineDataTable({
                 {header}
               </Table.Th>
             ))}
-            {ActionComponent && <Table.Th className="font-bold text-lg">Action</Table.Th>}
+            {ActionComponent && (
+              <Table.Th className="font-bold text-lg">Action</Table.Th>
+            )}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

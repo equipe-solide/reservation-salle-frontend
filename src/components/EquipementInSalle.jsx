@@ -8,6 +8,7 @@ import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import axios from "axios";
 import { Notify } from "notiflix";
+import MantineIsDispoBadge from "./mantine/MantineIsDispoBadge";
 
 function EquipementInSalle({ infoSalle }) {
   const [equipementData, setEquipementData] = useState([]);
@@ -74,6 +75,12 @@ function EquipementInSalle({ infoSalle }) {
     );
   };
 
+   // Fonctions de rendu personnalisées pour les champs
+   const renderers = {
+    dispo: (item) => <MantineIsDispoBadge dispo={item.dispo} />, // Badge de disponibilité
+  };
+
+
   return (
     <div className="">
       <Stack justify="center" gap="md">
@@ -103,6 +110,7 @@ function EquipementInSalle({ infoSalle }) {
               tableHeaders={["Designation", "Description", "Disponibilité"]}
               tableFields={["designation", "description", "dispo"]}
               ActionComponent={Actions}
+              renderers={renderers}
             />
           </div>
         </div>

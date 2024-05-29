@@ -1,6 +1,7 @@
 import React from "react";
 import MantineProviderComponent from "./components/mantine/MantineProvider";
 import "@mantine/core/styles.css";
+import '@mantine/dates/styles.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Reservation from "./pages/Reservation";
 import NoPage from "./pages/NoPage";
@@ -11,6 +12,17 @@ import Statistique from "./pages/Statistique";
 import Auth from "./utils/CheckAuth";
 import AuthApi from "./utils/AuthApi";
 import SalleAndEquipment from "./pages/SalleAndEquipment";
+import Notiflix from "notiflix";
+
+Notiflix.Notify.init({
+  width: '300px',
+  position: 'right-bottom',
+  closeButton: false,
+  cssAnimation: true,
+  cssAnimationDuration: 300,
+  timeout: 1500,
+  cssAnimationStyle: 'fade',
+  });
 
 //setup axios
 AuthApi.setup();
