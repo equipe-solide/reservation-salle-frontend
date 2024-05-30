@@ -43,7 +43,7 @@ function App() {
               </Auth>
             }
           >
-            <Route index element={<Statistique />} />
+            <Route index element={<Reservation />} />
             <Route path="reservation" element={<Reservation />} />
             <Route path="utilisateur" element={<Utilisateur />} />
             <Route path="salle_equipement/*" element={<SalleAndEquipment />} />

@@ -11,11 +11,11 @@ function MantineSidebar() {
   const [activeLink, setActiveLink] = useState(location.pathname);
 
   const links = [
-    {
-      link: "/dashboard",
-      label: "Tableau de bord",
-      icon: <VscGraph size={20} />,
-    },
+    // {
+    //   link: "/dashboard",
+    //   label: "Tableau de bord",
+    //   icon: <VscGraph size={20} />,
+    // },
     {
       link: "reservation",
       label: "Reservation",
