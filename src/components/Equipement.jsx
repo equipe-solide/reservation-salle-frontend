@@ -24,8 +24,8 @@ function Equipement() {
     <div className="my-4">
       <MantineDataTable
         data={equipementData}
-        tableHeaders={["Designation", "Description", "Disponibilité"]}
-        tableFields={["designation", "description", "dispo"]}
+        tableHeaders={["Designation", "Description"]}
+        tableFields={["designation", "description"]}
       />
     </div>
   );

@@ -95,7 +95,7 @@ function Reservation() {
   return (
     <div>
       <div className="my-5">
-        <Button variant="outline" onClick={handleOpen}>Ajouter une salle</Button>
+        <Button variant="outline" onClick={handleOpen}>Ajouter une reservation</Button>
       </div>
 
       <MantineDataTable
